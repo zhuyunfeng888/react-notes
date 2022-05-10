@@ -22,6 +22,8 @@
     <script type="text/babel">
         // 1. 创建组件
         class Weather extends React.Component {
+
+            // 构造器调用几次？--- 1次
             constructor(props) {
                 super(props)
                 // 初始化状态
@@ -30,16 +32,27 @@
                 this.changeWeather = this.changeWeather.bind(this)
             }
 
+            // render 调用几次？--- 1+n次，1是初始化的那次，n是状态更新的那次
             render() {
-                const { isHot } = this.state
-                return <h1 onClick={this.changeWeather}>今天天气很 {isHot ? '炎热' : '凉爽'}</h1>
+                const { isHot, wind } = this.state
+                return <h1 onClick={this.changeWeather}>今天天气很 {isHot ? '炎热' : '凉爽'}, {wind}</h1>
             }
 
+            // changeWeather调用几次？ ———— 点几次调几次
             changeWeather() {
                 // changeWeather放在那里？--- Weather的原型对象上，供实例使用
                 // 由于 changeWeather 是作为 onClick 的回调，所以不是通过实例调用，而是直接调用
                 // 类中的方法默认开启了局部的严格模式，所以 changeWeather中的 this为 undefined
+                console.log('changeWeather')
+
+                // 获取原来 isHot值
+                const isHot = this.state.isHot
+                // 严重注意: 状态必须通过 setState进行更新，且更新是一种合并而非替换
+                this.setState({ isHot: !isHot })
                 console.log(this)
+
+                // 严重注意：状态(state)不可直接更改，下面这行就是直接更改！！！
+                // this.state.isHot = !isHot //这是错误的写法
             }
         }
 
