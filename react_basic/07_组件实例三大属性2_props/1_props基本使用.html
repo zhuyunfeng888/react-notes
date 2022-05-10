@@ -40,7 +40,14 @@
         // 渲染组件到页面
         ReactDOM.render(<Person name="jerry" age="19" sex="男" />, document.getElementById('test1'))
         ReactDOM.render(<Person name="tom" age="18" sex="女" />, document.getElementById('test2'))
-        ReactDOM.render(<Person name="吴欢" age="30" sex="男" />, document.getElementById('test3'))
+
+        const p = {
+            name: '老刘',
+            age: 18,
+            sex: '女'
+        }
+        // ReactDOM.render(<Person name={p.name} age={p.age} sex={p.sex} />, document.getElementById('test3'))
+        ReactDOM.render(<Person {...p} />, document.getElementById('test3'))
     </script>
 </body>
 
