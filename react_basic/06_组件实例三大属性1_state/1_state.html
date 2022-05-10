@@ -24,12 +24,22 @@
         class Weather extends React.Component {
             constructor(props) {
                 super(props)
-                this.state = { isHot: false }
+                // 初始化状态
+                this.state = { isHot: false, wind: '微风' }
+                // 解决 changeWeather中 this指向问题
+                this.changeWeather = this.changeWeather.bind(this)
             }
 
             render() {
                 const { isHot } = this.state
-                return <h1>今天天气很 {isHot ? '炎热' : '凉爽'}</h1>
+                return <h1 onClick={this.changeWeather}>今天天气很 {isHot ? '炎热' : '凉爽'}</h1>
+            }
+
+            changeWeather() {
+                // changeWeather放在那里？--- Weather的原型对象上，供实例使用
+                // 由于 changeWeather 是作为 onClick 的回调，所以不是通过实例调用，而是直接调用
+                // 类中的方法默认开启了局部的严格模式，所以 changeWeather中的 this为 undefined
+                console.log(this)
             }
         }
 
